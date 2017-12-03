@@ -4,16 +4,8 @@
 
 
 int main(int argc, char *argv[]) {
-	char* filename;
-    if (argc != 2) {/* We print argv[0] assuming it is the program name */
-        printf( "usage: %s filename\n", argv[0] );
-		return 1;
-	} else {
-		filename = argv[1];
-	}
-	
 	int sudokuBoard[9][9];
-	ParseFile(filename, sudokuBoard); // Parsefile stores result in sudokuboard
+	ParseFile(sudokuBoard); // Parsefile stores result in sudokuboard
 	bool result = ValidateBoard(sudokuBoard);
 	if (!result){
 		printf( "The input is not a valid Sudoku\n");
