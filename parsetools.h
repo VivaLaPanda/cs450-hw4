@@ -2,6 +2,6 @@
 #define PARSE_H
 
 char** str_split(char* a_str, char a_delim);
-void ParseFile(int sudokuBoard[9][9]);
+int ParseFile(int sudokuBoard[][]);
 
 #endif

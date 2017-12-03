@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 
 // Splits a string by token
 // https://stackoverflow.com/a/9210560/4951118
@@ -52,7 +53,7 @@ char** str_split(char* a_str, char a_delim) {
     return result;
 }
 	
-void ParseFile(int sudokuBoard[9][9]) {
+int ParseFile(int pageTable[][]) {
 	// Read file into string - https://stackoverflow.com/a/7856790/4951118
 	char *file_contents, *p;
     int len, remain, n, size;
@@ -82,21 +83,28 @@ void ParseFile(int sudokuBoard[9][9]) {
 	// Break string into rows by newline
 	char** rowsAsStrings = str_split(file_contents, '\n');
 	
+	int numVAddrBits = atoi(rowsAsStrings[0]);
+	int numPAddrBits = atoi(rowsAsStrings[1]);
+	int bytesInPage = atoi(rowsAsStrings[2]);
+	int numEntries = (int) pow(2, numVAddrBits)
+	
 	// Break rows into chars by space
-	char** rowsOfElements[9]; // array or arrays of character arrays
-	for(int i=0; i < 9; i++) {
-		rowsOfElements[i] = str_split(rowsAsStrings[i], ' ');
+	int** rowsOfElements[numEntries]; // array or arrays of character arrays
+	for(int i=1; i < numEntries-1; i++) {
+		rowsOfElements[i] = atoi(str_split(rowsAsStrings[i], ' '));
 	}
 	
-	// rowsOfElements is now a 2D grid of char pointers, but we want those char pointers to be ints
-	// Convert chars to ints
-	for(int i=0; i < 9; i++) {
-		for(int j=0; j < 9; j++) {
-			// The 0 is to get the first character (which should be the only one except null term)
-			// Minus 0 converts to int - https://stackoverflow.com/a/628778/4951118
-			sudokuBoard[i][j] = rowsOfElements[i][j][0] - '0';
-		}
-	}
+	pageTable = rowsOfElements;
 	
 	free(file_contents);
+	
+	return calcOffset(bytesInPage);
 }
+
+int calcOffset(bytesInPage) {
+	return myLog(bytesInPage,2);
+}
+
+int myLog(int x, int base) { 
+    return log(x) / log(base); 
+} 
