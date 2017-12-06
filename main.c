@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 	pageTable = ParseFile(pageTable, offset); // Parsefile stores result in pageTable
 	char* offsetStr;
 	offsetStr = itoa(*offset, 2);
-	int result = lookup(pageTable, offsetStr, 1);
+	int result = lookup(pageTable, "00000", 1);
 	printf("%x\n", result);
 	
 	return 0;

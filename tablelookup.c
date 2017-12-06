@@ -16,7 +16,7 @@ int lookup(int** table, char* offset, int vpn){
             //check to see if its used
             if(table[vpn][3] != 0){
                 //grab the ppn
-                int ppn = table[vpn][3];
+                int ppn = table[vpn][2];
 
                 //create a string buffer for our mem maths.
                 char* buffer;
