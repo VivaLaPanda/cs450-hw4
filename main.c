@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include "parsetools.h"
+#include "pagelookup.h"
 
 
 int main(int argc, char *argv[]) {
-	int pageTable[9][9];
-	ParseFile(pageTable); // Parsefile stores result in pageTable
-	bool result = ValidateBoard(pageTable);
+	int pageTable[][];
+	int offset = ParseFile(pageTable); // Parsefile stores result in pageTable
+	bool result = P(pageTable);
 	if (!result){
 		printf( "The input is not a valid Sudoku\n");
 	}

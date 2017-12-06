@@ -53,7 +53,7 @@ char** str_split(char* a_str, char a_delim) {
     return result;
 }
 	
-int ParseFile(int pageTable[][]) {
+int ParseFile(int pageTable[][], int* offset) {
 	// Read file into string - https://stackoverflow.com/a/7856790/4951118
 	char *file_contents, *p;
     int len, remain, n, size;
@@ -89,9 +89,12 @@ int ParseFile(int pageTable[][]) {
 	int numEntries = (int) pow(2, numVAddrBits)
 	
 	// Break rows into chars by space
-	int** rowsOfElements[numEntries]; // array or arrays of character arrays
+	int* rowsOfElements[numEntries];
 	for(int i=1; i < numEntries-1; i++) {
-		rowsOfElements[i] = atoi(str_split(rowsAsStrings[i], ' '));
+		char** rowsOfChars = str_split(rowsAsStrings[i], ' ');
+		for (int j=0; j < 4; j++) {
+			rowsOfElements[i][j] = atoi(rowsOfChars[j]);
+		}
 	}
 	
 	pageTable = rowsOfElements;
