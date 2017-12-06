@@ -86,10 +86,11 @@ int** ParseFile(int** pageTable, int* offset) {
 	
 	// Break string into rows by newline
 	char** rowsAsStrings = str_split(file_contents, '\n');
+	char** rowsOfChars = str_split(rowsAsStrings[0], ' ');
 	
-	int numVAddrBits = atoi(rowsAsStrings[0]);
-	int numPAddrBits = atoi(rowsAsStrings[1]);
-	int bytesInPage = atoi(rowsAsStrings[2]);
+	int numVAddrBits = atoi(rowsOfChars[0]);
+	int numPAddrBits = atoi(rowsOfChars[1]);
+	int bytesInPage = atoi(rowsOfChars[2]);
 	int numEntries = 0;
 	
 	for (numEntries; rowsAsStrings[numEntries] != NULL; numEntries++){}
@@ -97,7 +98,7 @@ int** ParseFile(int** pageTable, int* offset) {
 	// Break rows into chars by space
 	int** rowsOfElements = malloc(numEntries*sizeof(int*));
 	for(int i=1; i < numEntries; i++) {
-		char** rowsOfChars = str_split(rowsAsStrings[i], ' ');
+		rowsOfChars = str_split(rowsAsStrings[i], ' ');
 		rowsOfElements[i-1] = malloc(4*sizeof(int));
 		for (int j=0; j < 4; j++) {
 			rowsOfElements[i-1][j] = atoi(rowsOfChars[j]);
