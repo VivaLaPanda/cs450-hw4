@@ -57,7 +57,7 @@ char** str_split(char* a_str, char a_delim) {
     return result;
 }
 	
-int ParseFile(int*** pageTable) {
+int** ParseFile(int** pageTable, int* offset) {
 	// Read file into string - https://stackoverflow.com/a/7856790/4951118
 	char *file_contents, *p;
     int len, remain, n, size;
@@ -73,7 +73,7 @@ int ParseFile(int*** pageTable) {
 			p = realloc(file_contents, size);
 			if (p == NULL) {
 				free(file_contents);
-				return -1;
+				return NULL;
 			}
 			file_contents = p;
 		}
@@ -98,17 +98,16 @@ int ParseFile(int*** pageTable) {
 	int** rowsOfElements = malloc(numEntries*sizeof(int*));
 	for(int i=1; i < numEntries; i++) {
 		char** rowsOfChars = str_split(rowsAsStrings[i], ' ');
+		rowsOfElements[i-1] = malloc(4*sizeof(int));
 		for (int j=0; j < 4; j++) {
-			rowsOfElements[i-1] = malloc(4*sizeof(int));
 			rowsOfElements[i-1][j] = atoi(rowsOfChars[j]);
 		}
 	}
 	
-	pageTable = &rowsOfElements;
+	*offset = calcOffset(bytesInPage);
 	
 	free(file_contents);
-	
-	return calcOffset(bytesInPage);
+	return rowsOfElements;
 }
 
 int calcOffset(int bytesInPage) {

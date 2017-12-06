@@ -5,10 +5,12 @@
 
 int main(int argc, char *argv[]) {
 	int** pageTable;
-	int offset = ParseFile(&pageTable); // Parsefile stores result in pageTable
+	int* offset =  malloc(sizeof(int));
+	pageTable = ParseFile(pageTable, offset); // Parsefile stores result in pageTable
 	char* offsetStr;
-	offsetStr = itoa(offset, 2);
+	offsetStr = itoa(*offset, 2);
 	int result = lookup(pageTable, offsetStr, 1);
+	printf("%x\n", result);
 	
 	return 0;
 }
