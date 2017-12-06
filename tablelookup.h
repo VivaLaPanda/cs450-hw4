@@ -17,7 +17,7 @@
 //lookup, ppn -> array of bits
 //
 
-int lookup(int** table, char* offset, int vpn);
+int lookup(int** table, unsigned long vpn);
 
 
 #endif //CS450_HW4_TABLELOOKUP_H

@@ -5,10 +5,9 @@
 #include "tablelookup.h"
 #include "itoa.h"
 
-int lookup(int** table, char* offset, int vpn){
+int lookup(int** table, unsigned long vpn){
     //table:
     //[valid][permission][ppn][used]
-
     //check to make sure its valid
     if(table[vpn][0] != 0) {
         //check to see if we have permission
@@ -21,23 +20,25 @@ int lookup(int** table, char* offset, int vpn){
                 //create a string buffer for our mem maths.
                 char* buffer;
 
-                //add out ppn
-                buffer = itoa(ppn,2);
-                //add our offset
-                strcat(buffer,offset);
-
                 //our final int to return
                 long address;
-                address = strtol ( buffer,NULL,2);
-                //return [ppn][offset]
+                address = ppn;
+                //return [ppn]
                 return address;
-            } else
+            } else {
                 //not used
-                return -1;
-        } else
-            //no permission
-            return -2;
+
+                printf("invalid inuput\n");
+                return 0;
+            }
+        } else//no permission
+        {
+            printf("invalid inuput\n");
+            return 0;
+        }
     }
     //not valid
-    return -3;
+
+    printf("invalid inuput\n");
+    return 0;
 }
