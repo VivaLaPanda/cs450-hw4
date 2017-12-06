@@ -57,7 +57,7 @@ char** str_split(char* a_str, char a_delim) {
     return result;
 }
 	
-int ParseFile(int** pageTable) {
+int ParseFile(int*** pageTable) {
 	// Read file into string - https://stackoverflow.com/a/7856790/4951118
 	char *file_contents, *p;
     int len, remain, n, size;
@@ -90,18 +90,21 @@ int ParseFile(int** pageTable) {
 	int numVAddrBits = atoi(rowsAsStrings[0]);
 	int numPAddrBits = atoi(rowsAsStrings[1]);
 	int bytesInPage = atoi(rowsAsStrings[2]);
-	int numEntries = (int) pow(2, numVAddrBits);
+	int numEntries = 0;
+	
+	for (numEntries; rowsAsStrings[numEntries] != NULL; numEntries++){}
 	
 	// Break rows into chars by space
-	int* rowsOfElements[numEntries];
-	for(int i=1; i < numEntries-1; i++) {
+	int** rowsOfElements = malloc(numEntries*sizeof(int*));
+	for(int i=1; i < numEntries; i++) {
 		char** rowsOfChars = str_split(rowsAsStrings[i], ' ');
 		for (int j=0; j < 4; j++) {
-			rowsOfElements[i][j] = atoi(rowsOfChars[j]);
+			rowsOfElements[i-1] = malloc(4*sizeof(int));
+			rowsOfElements[i-1][j] = atoi(rowsOfChars[j]);
 		}
 	}
 	
-	pageTable = rowsOfElements;
+	pageTable = &rowsOfElements;
 	
 	free(file_contents);
 	
