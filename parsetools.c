@@ -3,6 +3,10 @@
 #include <string.h>
 #include <assert.h>
 #include <math.h>
+#include "parsetools.h"
+
+#define BUF_SIZE 512
+#define BUF_MIN 128
 
 // Splits a string by token
 // https://stackoverflow.com/a/9210560/4951118
@@ -53,7 +57,7 @@ char** str_split(char* a_str, char a_delim) {
     return result;
 }
 	
-int ParseFile(int pageTable[][], int* offset) {
+int ParseFile(int** pageTable) {
 	// Read file into string - https://stackoverflow.com/a/7856790/4951118
 	char *file_contents, *p;
     int len, remain, n, size;
@@ -69,7 +73,7 @@ int ParseFile(int pageTable[][], int* offset) {
 			p = realloc(file_contents, size);
 			if (p == NULL) {
 				free(file_contents);
-				return;
+				return -1;
 			}
 			file_contents = p;
 		}
@@ -86,7 +90,7 @@ int ParseFile(int pageTable[][], int* offset) {
 	int numVAddrBits = atoi(rowsAsStrings[0]);
 	int numPAddrBits = atoi(rowsAsStrings[1]);
 	int bytesInPage = atoi(rowsAsStrings[2]);
-	int numEntries = (int) pow(2, numVAddrBits)
+	int numEntries = (int) pow(2, numVAddrBits);
 	
 	// Break rows into chars by space
 	int* rowsOfElements[numEntries];
@@ -104,7 +108,7 @@ int ParseFile(int pageTable[][], int* offset) {
 	return calcOffset(bytesInPage);
 }
 
-int calcOffset(bytesInPage) {
+int calcOffset(int bytesInPage) {
 	return myLog(bytesInPage,2);
 }
 

@@ -6,17 +6,23 @@ all: sudoku.x
 #	(pipes.x in this case)
 # $^ stands for everything on the right side of the colon (the .o files)
 
-sudoku.x: sudoku.c
-	gcc -lpthread -o $@ $^
+sudoku.x: main.o parsetools.o tablelookup.o itoa.o
+	gcc -lpthread -lm -o $@ $^
 
 # $< is the first item after the colon (main.c here)
-main.o: main.c
-	gcc -std=c11 -g -c -o $@ $<
+main.o: main.c parsetools.h tablelookup.h itoa.h
+	gcc -g -c -o $@ $<
 
 parsetools.o: parsetools.c
-	gcc -std=c11 -c -o $@ $<
+	gcc -c -o $@ $<
 
+tablelookup.o: tablelookup.c itoa.h
+	gcc -c -o $@ $<
 
+itoa.o: itoa.c
+	gcc -c -o $@ $<
+
+	
 clean:
 	rm -f *.x *.o *~
 

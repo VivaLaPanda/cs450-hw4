@@ -3,6 +3,7 @@
 //
 
 #include "tablelookup.h"
+#include "itoa.h"
 
 int lookup(int** table, char* offset, int vpn){
     //table:
@@ -18,11 +19,10 @@ int lookup(int** table, char* offset, int vpn){
                 int ppn = table[vpn][3];
 
                 //create a string buffer for our mem maths.
-                char * buffer;
-                buffer = (char*) malloc (64);
+                char* buffer;
 
                 //add out ppn
-                itoa(ppn,buffer,2);
+                buffer = itoa(ppn,2);
                 //add our offset
                 strcat(buffer,offset);
 
@@ -40,6 +40,4 @@ int lookup(int** table, char* offset, int vpn){
     }
     //not valid
     return -3;
-
-
 }
