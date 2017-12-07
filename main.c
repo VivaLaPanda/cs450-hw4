@@ -20,19 +20,21 @@ int main(int argc, char *argv[]) {
 		printf("offset = %d \n", *offset);
 		printf("please enter your input:");
 		unsigned long input;
-		scanf("%ld",&input);
+		scanf("%lx",&input);
 		unsigned long offsetinput = input;
-		offsetinput = offsetinput << (32 - *offset);
-		offsetinput = offsetinput >> (32 - *offset);
+        int onset = 64 - *offset;
+        printf("onset!:%d\n", onset);
+		offsetinput = offsetinput << onset;
+		offsetinput = offsetinput >> onset;
 		input = input >> *offset;
-		
+
 
 		unsigned long result = lookup(pageTable, input);
-		result = result << *offset;
+
+        result = result << *offset;
 		result = result + offsetinput;
 
 		printf("%lx\n", result);
-		break;
 	}
 
 	return 0;

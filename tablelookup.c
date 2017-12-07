@@ -13,8 +13,7 @@ int lookup(int** table, unsigned long vpn){
         //check to see if we have permission
         if (table[vpn][1] != 0) {
             //check to see if its used
-            if(table[vpn][3] != 0){
-                //grab the ppn
+            //grab the ppn
                 int ppn = table[vpn][2];
 
                 //create a string buffer for our mem maths.
@@ -25,20 +24,15 @@ int lookup(int** table, unsigned long vpn){
                 address = ppn;
                 //return [ppn]
                 return address;
-            } else {
-                //not used
 
-                printf("invalid inuput\n");
-                return 0;
             }
         } else//no permission
         {
-            printf("invalid inuput\n");
-            return 0;
+            printf("Seg Fualt\n");
+            exit(1);
         }
-    }
     //not valid
 
-    printf("invalid inuput\n");
-    return 0;
+    printf("Disk Fualt\n");
+    exit(1);
 }
