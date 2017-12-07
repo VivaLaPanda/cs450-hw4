@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 //adress translation
 //given 3 things
@@ -17,7 +18,7 @@
 //lookup, ppn -> array of bits
 //
 
-int lookup(int** table, char* offset, int vpn);
+int lookup(int** table, unsigned long vpn);
 
 
 #endif //CS450_HW4_TABLELOOKUP_H

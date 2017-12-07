@@ -57,32 +57,18 @@ char** str_split(char* a_str, char a_delim) {
     return result;
 }
 	
-int** ParseFile(int** pageTable, int* offset) {
+int** ParseFile(int** pageTable, int* offset, char* filename) {
 	// Read file into string - https://stackoverflow.com/a/7856790/4951118
 	char *file_contents, *p;
-    int len, remain, n, size;
+    long input_file_size;
 
-    size = BUF_SIZE;
-    file_contents = malloc(size);
-    len = 0;
-    remain = size;
-    while (!feof(stdin)) {
-		if (remain <= BUF_MIN) {
-			remain += size;
-			size *= 2;
-			p = realloc(file_contents, size);
-			if (p == NULL) {
-				free(file_contents);
-				return NULL;
-			}
-			file_contents = p;
-		}
-
-		fgets(file_contents + len, remain, stdin);
-		n = strlen(file_contents + len);
-		len += n;
-		remain -= n;
-	}
+    FILE *input_file = fopen(filename, "rb");
+    fseek(input_file, 0, SEEK_END);
+    input_file_size = ftell(input_file);
+    rewind(input_file);
+    file_contents = malloc(input_file_size * (sizeof(char)));
+    fread(file_contents, sizeof(char), input_file_size, input_file);
+    fclose(input_file);
 	
 	// Break string into rows by newline
 	char** rowsAsStrings = str_split(file_contents, '\n');

@@ -4,37 +4,37 @@
 #include "itoa.h"
 
 int main(int argc, char *argv[]) {
-	if (argc < 2)
-	{
-		printf("you need to provide all 2 files \n");
+	char* filename;
+	if (argc != 2) {/* We print argv[0] assuming it is the program name */
+		printf( "usage: %s filename\n", argv[0] );
 		return 1;
+	} else {
+		filename = argv[1];
 	}
 
 	int** pageTable;
 	int* offset =  malloc(sizeof(int));
-	pageTable = ParseFile(pageTable, offset); // Parsefile stores result in pageTable
-	char offsetStr[*offset];
-	char input[256];
-	int num_bits;
+	pageTable = ParseFile(pageTable, offset,filename); // Parsefile stores result in pageTable
 	while (1)
 	{
-
+		printf("offset = %d \n", *offset);
 		printf("please enter your input:");
-		num_bits = scanf("%s",input);
-		printf("\n");
-		char offsetStr[*offset];
-		if ((num_bits - *offset) > 0) {
-			int j = 0;
-			for (int i = num_bits - *offset; i < num_bits; i++)
-			{
-				offsetStr[j] += input[i];
-				j++;
-			}
+		unsigned long input;
+		scanf("%lx",&input);
+		unsigned long offsetinput = input;
+        int onset = 64 - *offset;
+        printf("onset!:%d\n", onset);
+		offsetinput = offsetinput << onset;
+		offsetinput = offsetinput >> onset;
+		input = input >> *offset;
 
-			int result = lookup(pageTable, offsetStr, 1);
-			printf("%x\n", result);
-		} else
-			break;
+
+		unsigned long result = lookup(pageTable, input);
+
+        result = result << *offset;
+		result = result + offsetinput;
+
+		printf("%lx\n", result);
 	}
 
 	return 0;
