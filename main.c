@@ -17,13 +17,13 @@ int main(int argc, char *argv[]) {
 	pageTable = ParseFile(pageTable, offset,filename); // Parsefile stores result in pageTable
 	while (1)
 	{
-		printf("offset = %d \n", *offset);
-		printf("please enter your input:");
+		//printf("offset = %d \n", *offset);
+		//printf("please enter your input:");
 		unsigned long input;
 		scanf("%lx",&input);
 		unsigned long offsetinput = input;
         int onset = 64 - *offset;
-        printf("onset!:%d\n", onset);
+        //printf("onset!:%d\n", onset);
 		offsetinput = offsetinput << onset;
 		offsetinput = offsetinput >> onset;
 		input = input >> *offset;
@@ -36,6 +36,4 @@ int main(int argc, char *argv[]) {
 
 		printf("%lx\n", result);
 	}
-
-	return 0;
 }
